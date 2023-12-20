@@ -10,7 +10,6 @@ import Tooltip from '@mui/material/Tooltip'
 import PersonAdd from '@mui/icons-material/PersonAdd'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
-import AvatarImage from '~/assets/avatar.jpg'
 
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -32,7 +31,11 @@ function Profiles() {
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 30, height: 30 }} alt='HinaChan' src={AvatarImage} />
+          <Avatar
+            sx={{ width: 34, height: 34 }}
+            alt='HinaChan'
+            src='https://i.pinimg.com/originals/98/ca/1b/98ca1b7585e9642585ac2ba5719f6087.jpg'
+          />
         </IconButton>
       </Tooltip>
       <Menu
