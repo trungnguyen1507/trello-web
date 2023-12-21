@@ -32,7 +32,7 @@ function Profiles() {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            sx={{ width: 34, height: 34 }}
+            sx={{ width: 36, height: 36 }}
             alt='HinaChan'
             src='https://i.pinimg.com/originals/98/ca/1b/98ca1b7585e9642585ac2ba5719f6087.jpg'
           />
