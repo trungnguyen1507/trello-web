@@ -5,16 +5,17 @@ import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
   MouseSensor,
-  /* PointerSensor, */ TouchSensor,
+  // PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
   pointerWithin,
-  rectIntersection,
-  getFirstCollision,
-  closestCenter
+  // rectIntersection,
+  // closestCenter ,
+  getFirstCollision
 } from '@dnd-kit/core'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { cloneDeep } from 'lodash'
@@ -284,18 +285,19 @@ function BoardContent({ board }) {
 
       // Tìm các điểm giao nhau, va chạm - intersections với con trỏ
       const pointerIntersections = pointerWithin(args)
+      if (!pointerIntersections?.length) return
       // Thuật toán phát hiện va chạm sẽ trả về một mảng các va chạm ở đây
-      const intersections = !!pointerIntersections?.length ? pointerIntersections : rectIntersection(args)
+      // const intersections = !!pointerIntersections?.length ? pointerIntersections : rectIntersection(args)
 
-      // Tìm overId đầu tiên trong đám intersections ở trên
-      let overId = getFirstCollision(intersections, 'id')
+      // Tìm overId đầu tiên trong đám pointerIntersections ở trên
+      let overId = getFirstCollision(pointerIntersections, 'id')
 
       if (overId) {
         // Nếu cái over nó là column thì sẽ tìm tới cái cardId gần nhất bên trong khu vực va chạm đó dựa vào
         // thuật toán phát hiện va chạm closestCenter hoặc closestCorners đều được
         const checkColumn = orderedColumnsState.find((column) => column._id === overId)
         if (checkColumn) {
-          overId = closestCenter({
+          overId = closestCorners({
             ...args,
             droppableContainers: args.droppableContainers.filter((container) => {
               return container.id !== overId && checkColumn?.cardOrderIds?.includes(container.id)
