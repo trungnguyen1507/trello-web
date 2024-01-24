@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 function ListColumns({ columns }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
@@ -15,6 +16,7 @@ function ListColumns({ columns }) {
 
   const addNewColumn = () => {
     if (!newColumnTitle) {
+      toast.error('Please enter Column title!')
       return
     }
     toggleOpenNewColumnForm()
