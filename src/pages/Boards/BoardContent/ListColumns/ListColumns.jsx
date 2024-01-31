@@ -9,7 +9,7 @@ import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortabl
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-function ListColumns({ columns, createNewColumn, createNewCard }) {
+function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
   const [newColumnTitle, setNewColumnTitle] = useState('')
@@ -52,7 +52,12 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
       >
         {/* Box Column 01 */}
         {columns.map((column) => (
-          <Column key={column._id} column={column} createNewCard={createNewCard} />
+          <Column
+            key={column._id}
+            column={column}
+            createNewCard={createNewCard}
+            deleteColumnDetails={deleteColumnDetails}
+          />
         ))}
         {/* Box Add new column */}
         {!openNewColumnForm ? (
