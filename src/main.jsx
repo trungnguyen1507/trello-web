@@ -7,10 +7,21 @@ import theme from '~/theme.js'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { ConfirmProvider } from 'material-ui-confirm'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <CssVarsProvider theme={theme}>
-    <CssBaseline />
-    <App />
-    <ToastContainer position='bottom-left' />
+    <ConfirmProvider
+      defaultOptions={{
+        allowClose: false,
+        dialogProps: { maxWidth: 'xs' },
+        cancellationButtonProps: { color: 'inherit' },
+        confirmationButtonProps: { color: 'warning', variant: 'outlined' }
+      }}
+    >
+      <CssBaseline />
+      <App />
+      <ToastContainer position='bottom-left' />
+    </ConfirmProvider>
   </CssVarsProvider>
 )
