@@ -13,6 +13,7 @@ import {
   selectCurrentActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 function Board() {
   const dispatch = useDispatch()
@@ -20,10 +21,12 @@ function Board() {
   //const [board, setBoard] = useState([])
   const board = useSelector(selectCurrentActiveBoard)
 
+  const { boardId } = useParams()
+
   useEffect(() => {
-    const boardId = '65af25940fb19081d2cd07b5'
+    // const boardId = '65af25940fb19081d2cd07b5'
     dispatch(fetchBoardDetailsAPI(boardId))
-  }, [dispatch])
+  }, [dispatch, boardId])
 
   // Đoạn này đã chuyển logic vào trong ListColumns
   // const createNewColumn = async (newColumnData) => {}
