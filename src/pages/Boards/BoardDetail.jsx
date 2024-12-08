@@ -6,7 +6,6 @@ import BoardContent from './BoardContent/BoardContent'
 import { useEffect } from 'react'
 import { updateBoardDetailAPI, updateColumnDetailAPI, moveCardToDifferentColumnAPI } from '~/apis'
 import { isEmpty, cloneDeep } from 'lodash'
-import { Box, CircularProgress, Typography } from '@mui/material'
 import {
   fetchBoardDetailsAPI,
   updateCurrentActiveBoard,
