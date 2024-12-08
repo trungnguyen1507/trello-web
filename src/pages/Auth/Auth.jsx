@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import Background from '~/assets/auth/login-register-bg.jpg'
 
 function Auth() {
   const location = useLocation()
@@ -17,7 +18,7 @@ function Auth() {
         minHeight: '100vh',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        background: 'url("src/assets/auth/login-register-bg.jpg")',
+        background: `url(${Background})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
