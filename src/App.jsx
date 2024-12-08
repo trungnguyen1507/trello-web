@@ -11,6 +11,11 @@ const ProtectedRoute = ({ user }) => {
   return <Outlet />
 }
 
+const PublicRoute = ({ user }) => {
+  if (user) return <Navigate to='/boards/65af25940fb19081d2cd07b5' replace={true} />
+  return <Outlet />
+}
+
 function App() {
   const currentUser = useSelector(selectCurrentUser)
 
@@ -29,10 +34,12 @@ function App() {
         <Route path='/boards/:boardId' element={<Board />} />
       </Route>
 
-      {/* Authentication */}
-      <Route path='/login' element={<Auth />} />
-      <Route path='/register' element={<Auth />} />
-      <Route path='/account/verification' element={<AccountVerification />} />
+      <Route element={<PublicRoute user={currentUser} />}>
+        {/* Authentication */}
+        <Route path='/login' element={<Auth />} />
+        <Route path='/register' element={<Auth />} />
+        <Route path='/account/verification' element={<AccountVerification />} />
+      </Route>
 
       {/* 404 not found page */}
       <Route path='*' element={<NotFound />} />

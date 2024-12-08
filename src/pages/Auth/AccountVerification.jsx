@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
-import { verifyUserApi } from '~/apis'
+import { verifyUserAPI } from '~/apis'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
 function AccountVerification() {
@@ -16,7 +16,7 @@ function AccountVerification() {
   // Gọi API để verify tài khoản
   useEffect(() => {
     if (email && token) {
-      verifyUserApi({ email, token }).then(() => setVerified(true))
+      verifyUserAPI({ email, token }).then(() => setVerified(true))
     }
   }, [email, token])
 

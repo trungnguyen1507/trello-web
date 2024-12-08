@@ -15,6 +15,14 @@ export const loginUserAPI = createAsyncThunk('user/loginUserAPI', async (data) =
   return response.data
 })
 
+export const logoutUserAPI = createAsyncThunk('user/logoutUserAPI', async (showSuccessMessage = true) => {
+  const response = await axiosInstance.delete(`${API_ROOT}/v1/users/logout`)
+  if (showSuccessMessage) {
+    toast.success('Logout successfully!')
+  }
+  return response.data
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -27,6 +35,10 @@ export const userSlice = createSlice({
       const user = action.payload
 
       state.currentUser = user
+    })
+    builder.addCase(logoutUserAPI.fulfilled, (state) => {
+      // API logout gọi thành công thì sẽ clear thông tin user trong redux
+      state.currentUser = null
     })
   }
 })

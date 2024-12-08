@@ -38,14 +38,19 @@ export const createNewCardAPI = async (newCardData) => {
 }
 
 // Users
-export const registerUserApi = async (data) => {
+export const registerUserAPI = async (data) => {
   const response = await axiosInstance.post(`${API_ROOT}/v1/users/register`, data)
   toast.success('Account created successfully! Please check and verify your account before logging in!')
   return response.data
 }
 
-export const verifyUserApi = async (data) => {
+export const verifyUserAPI = async (data) => {
   const response = await axiosInstance.put(`${API_ROOT}/v1/users/verify`, data)
   toast.success('Account verified successfully! Now you can login to enjoy our services! Have a good day!')
+  return response.data
+}
+
+export const refreshTokenAPI = async () => {
+  const response = await axiosInstance.get(`${API_ROOT}/v1/users/refresh_token`)
   return response.data
 }

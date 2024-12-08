@@ -20,7 +20,7 @@ import {
 } from '~/utils/validators'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { toast } from 'react-toastify'
-import { registerUserApi } from '~/apis'
+import { registerUserAPI } from '~/apis'
 
 function RegisterForm() {
   const {
@@ -34,7 +34,7 @@ function RegisterForm() {
   const submitRegister = (data) => {
     const { email, password } = data
     toast
-      .promise(registerUserApi({ email, password }), {
+      .promise(registerUserAPI({ email, password }), {
         pending: 'Registration is in progress...'
       })
       .then((user) => {

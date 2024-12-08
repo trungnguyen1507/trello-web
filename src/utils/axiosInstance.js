@@ -1,6 +1,16 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { interceptorLoadingElements } from './formatters'
+import { logoutUserAPI } from '~/redux/user/userSlice'
+import { refreshTokenAPI } from '~/apis'
+
+// Không thể import { store } from '~/redux/store' theo cách thông thường ở đây
+// Giải pháp: Inject store: là kỹ thuật khi cần sử dụng biến redux store ở các file ngoài phạm vi component
+// Hiểu đơn giản, khi code chạy lên, code chạy vào main.jsx đầu tiên, chúng ta gọi hàm injectStore để gán biến mainStore vào axiosReduxStore
+let axiosReduxStore
+export const injectStore = (mainStore) => {
+  axiosReduxStore = mainStore
+}
 
 // Khởi tạo một đối tượng Axios (axiosInstance) mục đích để custom và cấu hình chung cho dự án.
 let axiosInstance = axios.create()
@@ -22,6 +32,8 @@ axiosInstance.interceptors.request.use(
   }
 )
 
+let refreshTokenPromise = null
+
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
@@ -34,6 +46,32 @@ axiosInstance.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Kỹ thuật chặn spam click
     interceptorLoadingElements(false)
+
+    if (error.response?.status === 401) {
+      axiosReduxStore.dispatch(logoutUserAPI(false))
+    }
+
+    const originalRequest = error?.config
+    if (error?.response?.status === 410 && originalRequest) {
+      if (!refreshTokenPromise) {
+        refreshTokenPromise = refreshTokenAPI()
+          .then((data) => {
+            return data?.accessToken
+          })
+          .catch((_error) => {
+            axiosReduxStore.dispatch(logoutUserAPI(false))
+            return Promise.reject(_error)
+          })
+          .finally(() => {
+            refreshTokenPromise = null
+          })
+      }
+      // eslint-disable-next-line no-unused-vars
+      return refreshTokenPromise.then((accessToken) => {
+        // Nếu lưu accessToken vào localStorage thì xử lý tiếp ở đây
+        return axiosInstance(originalRequest)
+      })
+    }
 
     // Xử lý tập trung phần hiển thị thông báo lỗi trả về từ mọi API
     let errorMessage = error?.message
