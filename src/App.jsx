@@ -14,7 +14,7 @@ const ProtectedRoute = ({ user }) => {
 }
 
 const PublicRoute = ({ user }) => {
-  if (user) return <Navigate to='/boards/65af25940fb19081d2cd07b5' replace={true} />
+  if (user) return <Navigate to='/boards' replace={true} />
   return <Outlet />
 }
 
@@ -28,7 +28,7 @@ function App() {
         path='/'
         element={
           // Ở đây cần replace giá trị true để nó thay thế route /, có thể hiểu là route / sẽ không còn nằm trong history của Browser
-          <Navigate to='/boards/65af25940fb19081d2cd07b5' replace={true} />
+          <Navigate to='/boards' replace={true} />
         }
       />
 
