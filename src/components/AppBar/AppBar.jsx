@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { path } from '~/utils/constants'
 
 function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -39,13 +40,13 @@ function AppBar() {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Link to='/boards'>
+        <Link to={path.boards}>
           <Tooltip title='Board List'>
             <AppsIcon sx={{ color: 'white', verticalAlign: 'middle' }} />
           </Tooltip>
         </Link>
 
-        <Link to='/boards'>
+        <Link to={path.boards}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'white' }} />
             <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>

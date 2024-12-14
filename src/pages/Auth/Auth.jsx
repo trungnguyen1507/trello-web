@@ -3,12 +3,13 @@ import Box from '@mui/material/Box'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import Background from '~/assets/auth/login-register-bg.jpg'
+import { path } from '~/utils/constants'
 
 function Auth() {
   const location = useLocation()
   // console.log(location)
-  const isLogin = location.pathname === '/login'
-  const isRegister = location.pathname === '/register'
+  const isLogin = location.pathname === path.login
+  const isRegister = location.pathname === path.register
 
   return (
     <Box

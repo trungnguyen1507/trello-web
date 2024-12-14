@@ -97,8 +97,8 @@ function Board() {
     })
   }
 
-  if (isEmpty(board)) {
-    return <PageLoadingSpinner caption='Loading Board...' />
+  if (isEmpty(board) || board._id !== boardId) {
+    return <PageLoadingSpinner caption='Loading Board...' width='100vw' height='100vh' />
   }
 
   return (

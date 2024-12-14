@@ -3,6 +3,8 @@ import { toast } from 'react-toastify'
 import { interceptorLoadingElements } from './formatters'
 import { logoutUserAPI } from '~/redux/user/userSlice'
 import { refreshTokenAPI } from '~/apis'
+import { history } from '~/helpers'
+import { path } from './constants'
 
 // Không thể import { store } from '~/redux/store' theo cách thông thường ở đây
 // Giải pháp: Inject store: là kỹ thuật khi cần sử dụng biến redux store ở các file ngoài phạm vi component
@@ -80,6 +82,13 @@ axiosInstance.interceptors.response.use(
       // Dùng toastify để hiển thị mọi lỗi lên màn hình - Ngoại trừ mã 410 phục vụ việc refresh token
       if (error.response?.status !== 410) {
         toast.error(errorMessage)
+        if (errorMessage.includes('Your account is already active!')) {
+          history.navigate(path.login)
+        }
+
+        if (error.response?.status === 404) {
+          history.navigate('/404')
+        }
       }
     }
     return Promise.reject(error)

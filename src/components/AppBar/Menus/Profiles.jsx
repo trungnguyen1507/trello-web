@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useConfirm } from 'material-ui-confirm'
 import { logoutUserAPI, selectCurrentUser } from '~/redux/user/userSlice'
 import { Link } from 'react-router-dom'
+import { path } from '~/utils/constants'
 
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -64,7 +65,7 @@ function Profiles() {
           'aria-labelledby': 'basic-button-profiles'
         }}
       >
-        <Link style={{ color: 'inherit' }} to='/settings/account'>
+        <Link style={{ color: 'inherit' }} to={path.accountSettings}>
           <MenuItem
             sx={{
               '&:hover': { color: 'success.light' }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
 import { verifyUserAPI } from '~/apis'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
+import { path } from '~/utils/constants'
 
 function AccountVerification() {
   // Lấy giá trị email và token từ URL
@@ -27,11 +28,11 @@ function AccountVerification() {
 
   // Nếu chưa verify xong thì hiện loading
   if (!verified) {
-    return <PageLoadingSpinner caption='Verifying your account...' />
+    return <PageLoadingSpinner caption='Verifying your account...' width='100vw' height='100vh' />
   }
 
   // Verify thành công điều hướng về trang login với verifiedEmail
-  return <Navigate to={`/login?verifiedEmail=${email}`} />
+  return <Navigate to={`${path.login}?verifiedEmail=${email}`} />
 }
 
 export default AccountVerification

@@ -11,3 +11,14 @@ export const API_ROOT = apiRoot
 
 export const DEFAULT_PAGE = 1
 export const DEFAULT_ITEMS_PER_PAGE = 12
+
+export const path = {
+  home: '/',
+  boards: '/boards',
+  boardDetail: '/boards/:boardId',
+  accountSettings: '/settings/account',
+  securitySettings: '/settings/security',
+  login: '/login',
+  register: '/register',
+  accountVerification: '/account/verification'
+}

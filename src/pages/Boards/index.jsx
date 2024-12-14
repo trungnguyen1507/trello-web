@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import AppBar from '~/components/AppBar/AppBar'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 import Container from '@mui/material/Container'
@@ -47,6 +47,7 @@ function Boards() {
   const [boards, setBoards] = useState(null)
   // Tổng toàn bộ số lượng bản ghi boards có trong Database mà phía BE trả về để FE dùng tính toán phân trang
   const [totalBoards, setTotalBoards] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Xử lý phân trang từ url với MUI: https://mui.com/material-ui/react-pagination/#router-integration
   const location = useLocation()
@@ -61,23 +62,36 @@ function Boards() {
    */
   const page = parseInt(query.get('page') || '1', 10)
 
+  const updateStateData = (res) => {
+    setBoards(res.boards || [])
+    setTotalBoards(res.totalBoards || 0)
+  }
+
+  const fetchBoardsData = useCallback((searchPath) => {
+    setIsLoading(true)
+    // Gọi API lấy danh sách boards ở đây...
+    fetchBoardsAPI(searchPath)
+      .then(updateStateData)
+      .finally(() => setIsLoading(false))
+  }, [])
+
   useEffect(() => {
     // // Fake tạm 16 cái item thay cho boards
     // // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     // setBoards([...Array(16)].map((_, i) => i))
     // // Fake tạm giả sử trong Database trả về có tổng 100 bản ghi boards
     // setTotalBoards(100)
+    fetchBoardsData(location.search)
+  }, [fetchBoardsData, location.search])
 
-    // Gọi API lấy danh sách boards ở đây...
-    fetchBoardsAPI(location.search).then((res) => {
-      setBoards(res.boards || [])
-      setTotalBoards(res.totalBoards || 0)
-    })
-  }, [location.search])
+  const afterCreateNewBoard = () => {
+    // Fetch lại danh sách boards
+    fetchBoardsData(location.search)
+  }
 
   // Lúc chưa tồn tại boards > đang chờ gọi api thì hiện loading
   if (!boards) {
-    return <PageLoadingSpinner caption='Loading Boards...' />
+    return <PageLoadingSpinner caption='Loading Boards...' width='100vw' height='100vh' />
   }
 
   return (
@@ -102,7 +116,7 @@ function Boards() {
             </Stack>
             <Divider sx={{ my: 1 }} />
             <Stack direction='column' spacing={1}>
-              <SidebarCreateBoardModal />
+              <SidebarCreateBoardModal afterCreateNewBoard={afterCreateNewBoard} />
             </Stack>
           </Grid>
 
@@ -119,45 +133,49 @@ function Boards() {
             )}
 
             {/* Trường hợp gọi API và có boards trong Database trả về thì render danh sách boards */}
-            {boards?.length > 0 && (
-              <Grid container spacing={2}>
-                {boards.map((b) => (
-                  <Grid xs={2} sm={3} md={4} key={b._id}>
-                    <Card sx={{ width: '250px' }}>
-                      {/* Ý tưởng mở rộng về sau làm ảnh Cover cho board nhé */}
-                      {/* <CardMedia component="img" height="100" image="https://picsum.photos/100" /> */}
-                      <Box sx={{ height: '50px', backgroundColor: randomColor() }}></Box>
+            {isLoading ? (
+              <PageLoadingSpinner caption='Loading Boards...' width='100%' height='100%' />
+            ) : (
+              boards?.length > 0 && (
+                <Grid container spacing={2}>
+                  {boards.map((b) => (
+                    <Grid xs={2} sm={3} md={4} key={b._id}>
+                      <Card sx={{ width: '250px' }}>
+                        {/* Ý tưởng mở rộng về sau làm ảnh Cover cho board nhé */}
+                        {/* <CardMedia component="img" height="100" image="https://picsum.photos/100" /> */}
+                        <Box sx={{ height: '50px', backgroundColor: randomColor() }}></Box>
 
-                      <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-                        <Typography gutterBottom variant='h6' component='div'>
-                          {b?.title}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          color='text.secondary'
-                          sx={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
-                        >
-                          {b?.description}
-                        </Typography>
-                        <Box
-                          component={Link}
-                          to={`/boards/${b._id}`}
-                          sx={{
-                            mt: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'flex-end',
-                            color: 'primary.main',
-                            '&:hover': { color: 'primary.light' }
-                          }}
-                        >
-                          Go to board <ArrowRightIcon fontSize='small' />
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+                        <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
+                          <Typography gutterBottom variant='h6' component='div'>
+                            {b?.title}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            color='text.secondary'
+                            sx={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                          >
+                            {b?.description}
+                          </Typography>
+                          <Box
+                            component={Link}
+                            to={`/boards/${b._id}`}
+                            sx={{
+                              mt: 1,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'flex-end',
+                              color: 'primary.main',
+                              '&:hover': { color: 'primary.light' }
+                            }}
+                          >
+                            Go to board <ArrowRightIcon fontSize='small' />
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )
             )}
 
             {/* Trường hợp gọi API và có totalBoards trong Database trả về thì render khu vực phân trang  */}

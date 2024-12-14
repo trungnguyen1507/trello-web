@@ -7,6 +7,7 @@ import { ReactComponent as PlanetSvg } from '~/assets/404/planet.svg'
 import { ReactComponent as AstronautSvg } from '~/assets/404/astronaut.svg'
 import Background from '~/assets/404/particles.png'
 import { Link } from 'react-router-dom'
+import { path } from '~/utils/constants'
 
 function NotFound() {
   return (
@@ -94,7 +95,7 @@ function NotFound() {
           {/* Đoạn này nếu chỉ cần hiện file SVG mà không cần custom css bằng SX prop thì không cần dùng SvgIcon mà cứ gọi trực tiếp luôn cũng được */}
           <PlanetSvg />
         </Box>
-        <Link to='/' style={{ textDecoration: 'none' }}>
+        <Link to={path.home} style={{ textDecoration: 'none' }}>
           <Button
             variant='outlined'
             startIcon={<HomeIcon />}

@@ -2,6 +2,9 @@
  * YouTube: TrungQuanDev - Một Lập Trình Viên
  * Created by trungquandev.com's author on Jun 28, 2023
  */
+
+import { pick } from 'lodash'
+
 /**
  * Capitalize the first letter of a string
  */
@@ -36,4 +39,9 @@ export const interceptorLoadingElements = (calling) => {
       elements[i].style.pointerEvents = 'initial'
     }
   }
+}
+
+export const pickUser = (user) => {
+  if (!user) return {}
+  return pick(user, ['_id', 'email', 'username', 'displayName', 'avatar', 'role', 'isActive', 'createdAt', 'updatedAt'])
 }

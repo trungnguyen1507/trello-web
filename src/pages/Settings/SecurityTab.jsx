@@ -28,6 +28,10 @@ function SecurityTab() {
   // Ôn lại: https://www.npmjs.com/package/material-ui-confirm
   const confirmChangePassword = useConfirm()
   const submitChangePassword = (data) => {
+    const { current_password, new_password } = data
+    if (current_password === new_password) {
+      return toast.error('Current password and new password cannot be the same!')
+    }
     confirmChangePassword({
       // Title, Description, Content...vv của gói material-ui-confirm đều có type là ReactNode nên có thể thoải sử dụng MUI components, rất tiện lợi khi cần custom styles
       title: (
@@ -40,8 +44,6 @@ function SecurityTab() {
       cancellationText: 'Cancel'
     })
       .then(() => {
-        const { current_password, new_password } = data
-
         // Gọi API...
         toast
           .promise(dispatch(updateUserAPI({ current_password, new_password })), {

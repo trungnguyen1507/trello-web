@@ -22,6 +22,7 @@ import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { loginUserAPI } from '~/redux/user/userSlice'
+import { path } from '~/utils/constants'
 
 function LoginForm() {
   const dispatch = useDispatch()
@@ -43,7 +44,7 @@ function LoginForm() {
         pending: 'Logging in...'
       })
       .then((res) => {
-        if (!res.error) navigate('/')
+        if (!res.error) navigate(path.home)
       })
   }
 
@@ -160,7 +161,7 @@ function LoginForm() {
           </CardActions>
           <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
             <Typography>New to Trello MERN Stack Clone?</Typography>
-            <Link to='/register' style={{ textDecoration: 'none' }}>
+            <Link to={path.register} style={{ textDecoration: 'none' }}>
               <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>Create account!</Typography>
             </Link>
           </Box>

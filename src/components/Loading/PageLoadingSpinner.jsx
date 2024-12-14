@@ -1,18 +1,16 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
-import AppBar from '~/components/AppBar/AppBar'
 
-function PageLoadingSpinner({ caption }) {
+function PageLoadingSpinner({ caption, width, height }) {
   return (
     <>
-      <AppBar />
       <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: 2,
-          width: '100vw',
-          height: '100vh'
+          width: width,
+          height: height
         }}
       >
         <CircularProgress />

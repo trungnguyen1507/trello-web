@@ -21,6 +21,7 @@ import {
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { toast } from 'react-toastify'
 import { registerUserAPI } from '~/apis'
+import { path } from '~/utils/constants'
 
 function RegisterForm() {
   const {
@@ -38,7 +39,7 @@ function RegisterForm() {
         pending: 'Registration is in progress...'
       })
       .then((user) => {
-        navigate(`/login?registeredEmail=${user.email}`)
+        navigate(`${path.login}?registeredEmail=${user.email}`)
       })
   }
 
@@ -139,7 +140,7 @@ function RegisterForm() {
           </CardActions>
           <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
             <Typography>Already have an account?</Typography>
-            <Link to='/login' style={{ textDecoration: 'none' }}>
+            <Link to={path.login} style={{ textDecoration: 'none' }}>
               <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>Log in!</Typography>
             </Link>
           </Box>

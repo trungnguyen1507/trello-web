@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import axiosInstance from '~/utils/axiosInstance'
 import { API_ROOT } from '~/utils/constants'
+import { pickUser } from '~/utils/formatters'
 
 // Khởi tạo giá trị State của một cái Slice trong redux
 const initialState = {
@@ -36,8 +37,7 @@ export const userSlice = createSlice({
   // ExtraReducers: Nơi xử lý dữ liệu bất đồng bộ
   extraReducers: (builder) => {
     builder.addCase(loginUserAPI.fulfilled, (state, action) => {
-      // action.payload ở đây là cái response.data trả về từ fetchBoardDetailsAPI
-      const user = action.payload
+      const user = pickUser(action.payload)
 
       state.currentUser = user
     })

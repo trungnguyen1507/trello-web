@@ -1,4 +1,3 @@
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useState } from 'react'
 import Button from '@mui/material/Button'
@@ -24,10 +23,11 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 import { useConfirm } from 'material-ui-confirm'
-import { createNewCardAPI, deleteColumnDetailAPI } from '~/apis'
+import { createNewCardAPI, deleteColumnDetailAPI, updateColumnDetailAPI } from '~/apis'
 import { cloneDeep } from 'lodash'
 import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
 
 function Column({ column }) {
   const dispatch = useDispatch()
@@ -125,6 +125,18 @@ function Column({ column }) {
       .catch(() => {})
   }
 
+  const onUpdateColumnTitle = (newTitle) => {
+    // Gọi API ...
+    updateColumnDetailAPI(column._id, { title: newTitle }).then(() => {
+      const newBoard = cloneDeep(board)
+      const columnToUpdate = newBoard.columns.find((c) => c._id === column._id)
+      if (columnToUpdate) {
+        columnToUpdate.title = newTitle
+      }
+      dispatch(updateCurrentActiveBoard(newBoard))
+    })
+  }
+
   // Phải bọc div ở đây vì vấn đề chiều cao của column khi kéo thả sẽ có bug kiểu flickering
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
@@ -150,7 +162,7 @@ function Column({ column }) {
             justifyContent: 'space-between'
           }}
         >
-          <Typography
+          {/* <Typography
             variant='h6'
             sx={{
               fontWeight: 'bold',
@@ -159,7 +171,8 @@ function Column({ column }) {
             }}
           >
             {column?.title}
-          </Typography>
+          </Typography> */}
+          <ToggleFocusInput value={column?.title} onChangedValue={onUpdateColumnTitle} data-no-dnd='true' />
           <Box>
             <Tooltip title='More options'>
               <ExpandMoreIcon
