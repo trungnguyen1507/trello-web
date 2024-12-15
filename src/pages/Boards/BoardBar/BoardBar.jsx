@@ -5,12 +5,11 @@ import VpnLockIcon from '@mui/icons-material/VpnLock'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import BoltIcon from '@mui/icons-material/Bolt'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import Avatar from '@mui/material/Avatar'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatters'
+import BoardUserGroup from './BoardUserGroup'
 
 const MENU_STYLES = {
   color: 'white',
@@ -64,96 +63,8 @@ function BoardBar({ board }) {
         >
           Invite
         </Button>
-        <AvatarGroup
-          max={7}
-          sx={{
-            gap: '10px',
-            '& .MuiAvatar-root': {
-              width: 34,
-              height: 34,
-              fontSize: 16,
-              border: 'none',
-              color: 'white',
-              cursor: 'pointer',
-              '&:first-of-type': {
-                bgcolor: '#a4b0be'
-              }
-            }
-          }}
-        >
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.7994.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-50-.9047.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-52-.7933.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-50-.6566.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.2950.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.5548.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.7994.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-50-.9047.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-52-.7933.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-50-.6566.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.2950.jpg'
-            />
-          </Tooltip>
-          <Tooltip title='HinaChan'>
-            <Avatar
-              alt='HinaChan'
-              src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.5548.jpg'
-            />
-          </Tooltip>
-        </AvatarGroup>
+
+        <BoardUserGroup />
       </Box>
     </Box>
   )

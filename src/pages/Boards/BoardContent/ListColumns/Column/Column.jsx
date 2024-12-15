@@ -76,29 +76,36 @@ function Column({ column }) {
       columnId: column._id
     }
 
-    const createdCard = await createNewCardAPI({
-      ...newCardData,
-      boardId: board._id
-    })
+    toast
+      .promise(
+        createNewCardAPI({
+          ...newCardData,
+          boardId: board._id
+        }),
+        {
+          pending: 'Creating new card...'
+        }
+      )
+      .then((createdCard) => {
+        // Tương tự createNewColumn, chỗ này dùng cloneDeep()
+        // const newBoard = { ...board }
+        const newBoard = cloneDeep(board)
+        const columnToUpdate = newBoard.columns.find((column) => column._id === createdCard.columnId)
+        if (columnToUpdate) {
+          if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
+            columnToUpdate.cards = [createdCard]
+            columnToUpdate.cardOrderIds = [createdCard._id]
+          } else {
+            columnToUpdate.cards.push(createdCard)
+            columnToUpdate.cardOrderIds.push(createdCard._id)
+          }
+        }
+        // setBoard(newBoard)
+        dispatch(updateCurrentActiveBoard(newBoard))
 
-    // Tương tự createNewColumn, chỗ này dùng cloneDeep()
-    // const newBoard = { ...board }
-    const newBoard = cloneDeep(board)
-    const columnToUpdate = newBoard.columns.find((column) => column._id === createdCard.columnId)
-    if (columnToUpdate) {
-      if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
-        columnToUpdate.cards = [createdCard]
-        columnToUpdate.cardOrderIds = [createdCard._id]
-      } else {
-        columnToUpdate.cards.push(createdCard)
-        columnToUpdate.cardOrderIds.push(createdCard._id)
-      }
-    }
-    // setBoard(newBoard)
-    dispatch(updateCurrentActiveBoard(newBoard))
-
-    toggleOpenNewCardForm()
-    setNewCardTitle('')
+        toggleOpenNewCardForm()
+        setNewCardTitle('')
+      })
   }
 
   const confirmDeleteColumn = useConfirm()
@@ -118,9 +125,13 @@ function Column({ column }) {
         // setBoard(newBoard)
         dispatch(updateCurrentActiveBoard(newBoard))
         // Gọi API
-        deleteColumnDetailAPI(column._id).then((res) => {
-          toast.success(res.deleteResult)
-        })
+        toast
+          .promise(deleteColumnDetailAPI(column._id), {
+            pending: 'Deleting column...'
+          })
+          .then((res) => {
+            toast.success(res.deleteResult)
+          })
       })
       .catch(() => {})
   }

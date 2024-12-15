@@ -28,7 +28,7 @@ function AccountVerification() {
 
   // Nếu chưa verify xong thì hiện loading
   if (!verified) {
-    return <PageLoadingSpinner caption='Verifying your account...' width='100vw' height='100vh' />
+    return <PageLoadingSpinner caption='Verifying your account...' />
   }
 
   // Verify thành công điều hướng về trang login với verifiedEmail

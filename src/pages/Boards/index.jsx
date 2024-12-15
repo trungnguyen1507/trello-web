@@ -91,7 +91,7 @@ function Boards() {
 
   // Lúc chưa tồn tại boards > đang chờ gọi api thì hiện loading
   if (!boards) {
-    return <PageLoadingSpinner caption='Loading Boards...' width='100vw' height='100vh' />
+    return <PageLoadingSpinner caption='Loading Boards...' />
   }
 
   return (

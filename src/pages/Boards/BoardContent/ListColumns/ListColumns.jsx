@@ -32,35 +32,42 @@ function ListColumns({ columns }) {
       title: newColumnTitle
     }
 
-    const createdColumn = await createNewColumnAPI({
-      ...newColumnData,
-      boardId: board._id
-    })
+    toast
+      .promise(
+        createNewColumnAPI({
+          ...newColumnData,
+          boardId: board._id
+        }),
+        {
+          pending: 'Creating new column...'
+        }
+      )
+      .then((createdColumn) => {
+        // Xử lý trường hợp kéo card sang column rỗng khi tạo mới column
+        createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+        createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
 
-    // Xử lý trường hợp kéo card sang column rỗng khi tạo mới column
-    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
-    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+        /**
+         * Đoạn này sẽ dính lỗi object is not extensible bởi dù đã copy/clone ra giá trị newBoard nhưng bản chất của spread operator là Shallow Copy/Clone, nên dính rules Immutability trong Redux Toolkit không dùng được hàm PUSH. Cách đơn giản là dùng Deep Copy/Clone toàn bộ cái Board
+         */
+        // Cập nhật lại state board
+        // const newBoard = { ...board }
+        const newBoard = cloneDeep(board)
+        newBoard.columns.push(createdColumn)
+        newBoard.columnOrderIds.push(createdColumn._id)
 
-    /**
-     * Đoạn này sẽ dính lỗi object is not extensible bởi dù đã copy/clone ra giá trị newBoard nhưng bản chất của spread operator là Shallow Copy/Clone, nên dính rules Immutability trong Redux Toolkit không dùng được hàm PUSH. Cách đơn giản là dùng Deep Copy/Clone toàn bộ cái Board
-     */
-    // Cập nhật lại state board
-    // const newBoard = { ...board }
-    const newBoard = cloneDeep(board)
-    newBoard.columns.push(createdColumn)
-    newBoard.columnOrderIds.push(createdColumn._id)
+        /**
+         * Ngoài ra còn cách nữa là có thể dùng array.concat thay cho push vì push thay đổi giá trị mảng trực tiếp, còn concat thì merge - ghép mảng lại và tạo ra một mảng mới
+         */
+        // const newBoard = {...board}
+        // newBoard.columns = newBoard.columns.concat([createdColumn])
+        // newBoard.columnOrderIds = newBoard.columnOrderIds.concat([createdColumn._id])
 
-    /**
-     * Ngoài ra còn cách nữa là có thể dùng array.concat thay cho push vì push thay đổi giá trị mảng trực tiếp, còn concat thì merge - ghép mảng lại và tạo ra một mảng mới
-     */
-    // const newBoard = {...board}
-    // newBoard.columns = newBoard.columns.concat([createdColumn])
-    // newBoard.columnOrderIds = newBoard.columnOrderIds.concat([createdColumn._id])
+        dispatch(updateCurrentActiveBoard(newBoard))
 
-    dispatch(updateCurrentActiveBoard(newBoard))
-
-    toggleOpenNewColumnForm()
-    setNewColumnTitle('')
+        toggleOpenNewColumnForm()
+        setNewColumnTitle('')
+      })
   }
 
   /**

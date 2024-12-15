@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
 
-function PageLoadingSpinner({ caption, width, height }) {
+function PageLoadingSpinner({ caption, width = '100vw', height = '100vh' }) {
   return (
     <>
       <Box

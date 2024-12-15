@@ -4,6 +4,7 @@ import { activeBoardReducer } from './activeBoard/activeBoardSlice'
 import { userReducer } from './user/userSlice'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from 'redux-persist'
+import { activeCardReducer } from './activeCard/activeCardSlice'
 
 // Cấu hình Persist
 const rootPersistConfig = {
@@ -16,7 +17,8 @@ const rootPersistConfig = {
 // Combine các reducers
 const reducers = combineReducers({
   activeBoard: activeBoardReducer,
-  user: userReducer
+  user: userReducer,
+  activeCard: activeCardReducer
 })
 
 // Thực hiện persist Reducers
