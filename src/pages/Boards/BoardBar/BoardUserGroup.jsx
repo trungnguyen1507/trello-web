@@ -21,22 +21,18 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
   return (
     <Box sx={{ display: 'flex', gap: '4px' }}>
       {/* Hiển thị giới hạn số lượng user theo số limit */}
-      {[...Array(16)].map((_, index) => {
+      {boardUsers.map((user, index) => {
         if (index < limit) {
           return (
-            <Tooltip title='HinaChan' key={index}>
-              <Avatar
-                sx={{ width: 34, height: 34, cursor: 'pointer' }}
-                alt='HinaChan'
-                src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.7994.jpg'
-              />
+            <Tooltip title={user?.displayName} key={index}>
+              <Avatar sx={{ width: 34, height: 34, cursor: 'pointer' }} alt={user?.displayName} src={user?.avatar} />
             </Tooltip>
           )
         }
       })}
 
       {/* Nếu số lượng users nhiều hơn limit thì hiện thêm +number */}
-      {[...Array(16)].length > limit && (
+      {boardUsers.length > limit && (
         <Tooltip title='Show more'>
           <Box
             aria-describedby={popoverId}
@@ -55,7 +51,7 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
               backgroundColor: '#a4b0be'
             }}
           >
-            +{[...Array(16)].length - limit}
+            +{boardUsers.length - limit}
           </Box>
         </Tooltip>
       )}
@@ -69,13 +65,9 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <Box sx={{ p: 2, maxWidth: '235px', display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          {[...Array(16)].map((_, index) => (
-            <Tooltip title='HinaChan' key={index}>
-              <Avatar
-                sx={{ width: 34, height: 34, cursor: 'pointer' }}
-                alt='HinaChan'
-                src='https://motgame.vn/stores/news_dataimages/motgamevn/062023/30/05/hina-nu-cosplayer-noi-tieng-han-quoc-khien-bao-nguoi-me-met-nhan-lam-vo-la-ai-53-.7994.jpg'
-              />
+          {boardUsers.map((user, index) => (
+            <Tooltip title={user?.displayName} key={index}>
+              <Avatar sx={{ width: 34, height: 34, cursor: 'pointer' }} alt={user?.displayName} src={user?.avatar} />
             </Tooltip>
           ))}
         </Box>
