@@ -85,10 +85,6 @@ axiosInstance.interceptors.response.use(
         if (errorMessage.includes('Your account is already active!')) {
           history.navigate(path.login)
         }
-
-        if (error.response?.status === 404) {
-          history.navigate('/404')
-        }
       }
     }
     return Promise.reject(error)

@@ -107,7 +107,7 @@ function AccountTab() {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Box>
-            <Avatar sx={{ width: 84, height: 84, mb: 1 }} alt='TrungQuanDev' src={currentUser?.avatar} />
+            <Avatar sx={{ width: 84, height: 84, mb: 1 }} alt={currentUser?.displayName} src={currentUser?.avatar} />
             <Tooltip title='Upload a new image to update your avatar immediately.'>
               <Button component='label' variant='contained' size='small' startIcon={<CloudUploadIcon />}>
                 Upload

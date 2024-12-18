@@ -37,6 +37,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   clearCurrentActiveCard,
   selectCurrentActiveCard,
+  selectIsShowModalActiveCard,
   updateCurrentActiveCard
 } from '~/redux/activeCard/activeCardSlice'
 import { updateCardDetailAPI } from '~/apis'
@@ -66,12 +67,13 @@ const SidebarItem = styled(Box)(({ theme }) => ({
  * Note: Modal là một low-component mà bọn MUI sử dụng bên trong những thứ như Dialog, Drawer, Menu, Popover. Ở đây dĩ nhiên chúng ta có thể sử dụng Dialog cũng không thành vấn đề gì, nhưng sẽ sử dụng Modal để dễ linh hoạt tùy biến giao diện từ con số 0 cho phù hợp với mọi nhu cầu nhé.
  */
 function ActiveCard() {
-  // Không sử dụng state isOpen nữa mà sẽ dùng state activeCard trong Redux
+  // Không sử dụng state isOpen nữa mà sẽ dùng state isShowModalActiveCard trong Redux
   // const [isOpen, setIsOpen] = useState(true)
   // const handleOpenModal = () => setIsOpen(true)
   const dispatch = useDispatch()
 
   const activeCard = useSelector(selectCurrentActiveCard)
+  const isShowModalActiveCard = useSelector(selectIsShowModalActiveCard)
 
   const handleCloseModal = () => {
     // setIsOpen(false)
@@ -119,10 +121,14 @@ function ActiveCard() {
     )
   }
 
+  const onAddCardComment = async (commentToAdd) => {
+    await callApiUpdateCard({ commentToAdd })
+  }
+
   return (
     <Modal
       disableScrollLock
-      open={true}
+      open={isShowModalActiveCard}
       onClose={handleCloseModal} // Sử dụng onClose trong trường hợp muốn đóng Modal bằng nút ESC hoặc click ra ngoài Modal
       sx={{ overflowY: 'auto' }}
     >
@@ -203,7 +209,7 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 04: Xử lý các hành động, ví dụ comment vào Card */}
-              <CardActivitySection />
+              <CardActivitySection cardComments={activeCard?.comments} onAddCardComment={onAddCardComment} />
             </Box>
           </Grid>
 

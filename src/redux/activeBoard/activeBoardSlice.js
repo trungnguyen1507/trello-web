@@ -52,6 +52,7 @@ export const activeBoardSlice = createSlice({
       // action.payload ở đây là cái response.data trả về từ fetchBoardDetailsAPI
       let board = action.payload
 
+      // Tự tạo thêm field FE_allUsers cho board phía FE để ghép 2 mảng owners và members trả về từ API
       board.FE_allUsers = board.owners.concat(board.members)
 
       board.columns = mapOrder(board.columns, board.columnOrderIds, '_id')

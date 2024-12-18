@@ -52,7 +52,7 @@ function Profiles() {
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 36, height: 36 }} src={currentUser?.avatar} />
+          <Avatar sx={{ width: 36, height: 36 }} alt={currentUser?.displayName} src={currentUser?.avatar} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -71,7 +71,8 @@ function Profiles() {
               '&:hover': { color: 'success.light' }
             }}
           >
-            <Avatar src={currentUser?.avatar} sx={{ width: 28, height: 28, mr: 2 }} /> Profile
+            <Avatar src={currentUser?.avatar} alt={currentUser?.displayName} sx={{ width: 28, height: 28, mr: 2 }} />{' '}
+            Profile
           </MenuItem>
         </Link>
         <Divider />
