@@ -79,12 +79,13 @@ axiosInstance.interceptors.response.use(
     let errorMessage = error?.message
     if (error.response?.data?.message) {
       errorMessage = error.response?.data?.message
-      // Dùng toastify để hiển thị mọi lỗi lên màn hình - Ngoại trừ mã 410 phục vụ việc refresh token
-      if (error.response?.status !== 410) {
-        toast.error(errorMessage)
-        if (errorMessage.includes('Your account is already active!')) {
-          history.navigate(path.login)
-        }
+    }
+
+    // Dùng toastify để hiển thị mọi lỗi lên màn hình - Ngoại trừ mã 410 phục vụ việc refresh token
+    if (error.response?.status !== 410) {
+      toast.error(errorMessage)
+      if (errorMessage.includes('Your account is already active!')) {
+        history.navigate(path.login)
       }
     }
     return Promise.reject(error)
